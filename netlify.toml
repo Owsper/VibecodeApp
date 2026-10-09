@@ -1,0 +1,20 @@
+# Netlify deployment configuration
+# Docs: https://docs.netlify.com/configure-builds/file-based-configuration/
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Simple 404 fallback. The app uses internal view switching (not a router),
+# so in practice all traffic hits index.html and JS handles everything.
+# This rule keeps behavior stable if we ever add a client-side route.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Sensible caching for hashed static assets.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

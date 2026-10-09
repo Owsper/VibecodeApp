@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#0B0D17" />
+    <meta
+      name="description"
+      content="PromptVault — your best prompts, organized, ready to use. A personal prompt library that lives in your browser."
+    />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>PromptVault — Your best prompts. Organized. Ready to use.</title>
+    <script>
+      // Load theme before paint to prevent flash. Dark is default.
+      (function () {
+        try {
+          var raw = localStorage.getItem('promptvault:theme');
+          var t = JSON.parse(raw || 'null');
+          var theme = t && typeof t === 'object' && t.type ? t.type : 'dark';
+          var root = document.documentElement;
+          if (theme === 'light') {
+            root.classList.remove('dark');
+          } else {
+            root.classList.add('dark');
+          }
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', theme === 'light' ? '#F7F7FB' : '#0B0D17');
+        } catch (e) {
+          if (document.documentElement) document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+    <style>
+      /* Pre-paint shell: avoids white flash in dark mode before Vite injects CSS. */
+      html { background: #0b0d17; }
+      html:not(.dark) { background: #f7f7fb; }
+      html, body, #root { min-height: 100dvh; }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      <div style="padding:2rem;font-family:ui-sans-serif,system-ui;color:#444">
+        PromptVault requires JavaScript to run. Please enable JavaScript in your browser.
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
